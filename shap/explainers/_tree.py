@@ -915,7 +915,7 @@ class TreeEnsemble:
             self.input_dtype = np.float32
             scaling = 1.0 / len(model.estimators_) # output is average of trees
             self.trees = [SingleTree(e.tree_, normalize=True, scaling=scaling, data=data, data_missing=data_missing) for e in model.estimators_]
-            self.objective = objective_name_map.get(model.base_estimator_.criterion, None) #This line is done to get the decision criteria, for example gini.
+            self.objective = objective_name_map.get(model.estimator_.criterion, None) #This line is done to get the decision criteria, for example gini.
             self.tree_output = "probability"
         elif safe_isinstance(model, ("sklearn.ensemble._weighted_boosting.AdaBoostRegressor", "sklearn.ensemble.AdaBoostRegressor")):
             assert hasattr(model, "estimators_"), "Model has no `estimators_`! Have you called `model.fit`?"
@@ -923,7 +923,7 @@ class TreeEnsemble:
             self.input_dtype = np.float32
             scaling = 1.0 / len(model.estimators_) # output is average of trees
             self.trees = [SingleTree(e.tree_, scaling=scaling, data=data, data_missing=data_missing) for e in model.estimators_]
-            self.objective = objective_name_map.get(model.base_estimator_.criterion, None) #This line is done to get the decision criteria, for example gini.
+            self.objective = objective_name_map.get(model.estimator_.criterion, None) #This line is done to get the decision criteria, for example gini.
             self.tree_output = "raw_value"
         elif safe_isinstance(model, ["sklearn.ensemble.HistGradientBoostingClassifier"]):
             # cf. GH #1028 for implementation notes
